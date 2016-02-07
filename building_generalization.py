@@ -159,6 +159,13 @@ class Generalization:
             #Do something useful here - delete the line containing pass and
             # substitute with your code.
 
-            build =BUBD_A('OT_BUBD_A')
-            build.kaplicaSymbol()
+            build =BUBD_A()
+            build.budynekMieszkalnySkala()
+            build.budynekPrzemyslowySkala()
+            #zab = PTZB_A()
+            #zab.zabudowaJednorodzinna()
+            #punkt = CentroidPoligonu()
+            #punkt.centroidPoligonu('OT_BUBD_A')
+            warstwa = Warstwa()
+            warstwa.polaczWarstwy("Polygon", "Budynki", "budynekMieszkalnySkala", "budynekPrzemyslowySkala" )
 
