@@ -34,7 +34,12 @@ import resources
 # Import the code for the dialog
 from building_generalization_dialog import GeneralizationDialog
 import os.path
-from piedziesiat import *
+from selekcja50k import *
+from WarstwaOperacje import *
+from morfologia import *
+#from piedziesiat import *
+
+
 
 class Generalization:
     """QGIS Plugin Implementation."""
@@ -154,18 +159,55 @@ class Generalization:
         self.dlg.show()
         # Run the dialog event loop
         result = self.dlg.exec_()
+
         # See if OK was pressed
         if result:
+            QgsMessageLog.logMessage("aaaaewwwwdwed")
             #Do something useful here - delete the line containing pass and
             # substitute with your code.
 
-            build =BUBD_A()
+            """build =BUBD_A()
             build.budynekMieszkalnySkala()
+            build.budynekUzytecznosciPublicznejSkala()
             build.budynekPrzemyslowySkala()
+            build.budynekGospodarczySkala()
+            build.szklarniaSkala()
+            build.budynekMieszkalnySymbol()
+            build.budynekUzytecznosciPublicznejSymbol()
+            build.budynekPrzemyslowySymbol()
+            build.budynekGospodarczySymbol()
+            build.ruinaSymbol()
+            build.swiatyniaChrzescijanskaSymbol()
+            build.swiatyniaNiechrzescijanskaSymbol()
+            build.kaplicaSymbol()
+            oior = OIOR_A()
+            oior.ruinaSymbol()
+            oior.szklarniaSkala()
+            buwt = BUWT_A()
+            buwt.budynekPrzemyslowySkala()
+            buwt.budynekPrzemyslowySymbol()
+            ptzb = PTZB_A()
+            ptzb.zabudowaJednorodzinna()
+            ptzb.zabudowaWielorodzinnaGesta()
+            ptzb.zabudowaWielorodzinnaZwarta()
+            warstwa = Warstwa()
+            warstwa.polaczWarstwy("Polygon", "szklarniaSkala2",build.szklarniaSkala(), oior.szklarniaSkala())
+            warstwa.polaczWarstwy("Polygon", "ruinaSymbol2",build.ruinaSymbol(), oior.ruinaSymbol())
+            warstwa.polaczWarstwy("Polygon", "budynekPrzemyslowySkala2", build.budynekPrzemyslowySkala(), buwt.budynekPrzemyslowySkala() )
+            warstwa.polaczWarstwy("Polygon", "budynekPrzemyslowySymbol2", build.budynekPrzemyslowySymbol(), buwt.budynekPrzemyslowySymbol() )
+
+            #centroid = CentroidPoligonu()
+            #centroid.centroidPoligonu("BudynkiSymbol")
+            #centroid.centroidPoligonu("budynekMieszkalnySymbol")
             #zab = PTZB_A()
             #zab.zabudowaJednorodzinna()
             #punkt = CentroidPoligonu()
             #punkt.centroidPoligonu('OT_BUBD_A')
+            #warstwa = Warstwa()
+            #warstwa.polaczWarstwy("Polygon", "Budynki", "budynekMieszkalnySkala", "budynekPrzemyslowySkala" )"""
             warstwa = Warstwa()
-            warstwa.polaczWarstwy("Polygon", "Budynki", "budynekMieszkalnySkala", "budynekPrzemyslowySkala" )
+            morf = Morfologia()
+            morf.dylacja(warstwa.wyborWarstwy("OT_OIOR_A"), "/home/ml/Documents/Praca magisterska/proby/bufordyl.shp", 10, False, True)
+            morf.erozja(warstwa.wyborWarstwy("buforDylacja"), "/home/ml/Documents/Praca magisterska/proby/buforer.shp", -10, False, False)
+            warstwa.wyborWarstwy("OT_BUWT_A")
 

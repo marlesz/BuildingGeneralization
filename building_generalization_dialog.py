@@ -22,6 +22,7 @@
 """
 
 import os
+from PyQt4.QtGui import QFileDialog, QMessageBox
 
 from PyQt4 import QtGui, uic
 
@@ -38,4 +39,12 @@ class GeneralizationDialog(QtGui.QDialog, FORM_CLASS):
         # self.<objectname>, and you can use autoconnect slots - see
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
+
         self.setupUi(self)
+
+        self.DP.clicked.connect(self.showBrowserDialog)
+
+    def showBrowserDialog(self):
+        """Shows a file browser dialog to enter the output path."""
+        fileName = QFileDialog.getSaveFileName(None, 'Save output shapefile','','Shapefiles (*.shp *.SHP)')
+        self.outputPath.setText(fileName)
