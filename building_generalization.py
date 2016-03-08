@@ -37,6 +37,7 @@ import os.path
 from selekcja50k import *
 from WarstwaOperacje import *
 from morfologia import *
+from DouglasPeucker import *
 #from piedziesiat import *
 
 
@@ -210,4 +211,6 @@ class Generalization:
             morf.dylacja(warstwa.wyborWarstwy("OT_OIOR_A"), "/home/ml/Documents/Praca magisterska/proby/bufordyl.shp", 10, False, True)
             morf.erozja(warstwa.wyborWarstwy("buforDylacja"), "/home/ml/Documents/Praca magisterska/proby/buforer.shp", -10, False, False)
             warstwa.wyborWarstwy("OT_BUWT_A")
+            dp = RamerDouglasPeucker(1)
 
+            dp.runsimplify(warstwa.wyborWarstwy("OT_OIOR_A"))

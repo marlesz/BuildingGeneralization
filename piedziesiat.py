@@ -32,7 +32,6 @@ class Warstwa:
         provider = warstwa.dataProvider()
         fields = provider.fields()
         outputLayer = QgsVectorLayer(typ+"?crs=EPSG:2180", nowaNazwaWarstwy, "memory")
-
         outputLayer.startEditing()
         for field in fields:
             outputLayer.addAttribute(field)
@@ -61,7 +60,7 @@ class Warstwa:
         return outputLayer"""
 
 #class LaczenieWarstw:
-    def polaczWarstwy(self,typ, nowaNazwaWarstwy, *nazwyWarstw):
+    """def polaczWarstwy(self,typ, nowaNazwaWarstwy, *nazwyWarstw):
         rejestr = QgsMapLayerRegistry.instance()
 
         outputLayer = QgsVectorLayer(typ+"?crs=EPSG:2180", nowaNazwaWarstwy, "memory")
@@ -83,10 +82,27 @@ class Warstwa:
                 outputLayer.updateFields()
             self.usunWarstwe(nazwaWarstwy)
         QgsMapLayerRegistry.instance().addMapLayer(outputLayer)
+        outputLayer.updateExtents()"""
+    def polaczWarstwy(self,typ, nowaNazwaWarstwy, *warstwy):
+        outputLayer = QgsVectorLayer(typ+"?crs=EPSG:2180", nowaNazwaWarstwy, "memory")
+        provider = outputLayer.dataProvider()
+        for warstwa in warstwy:
+            fields = warstwa.pendingFields()
+            for field in fields:
+                provider.addAttributes([field])
+            outputLayer.updateFields()
+
+            feats1 = warstwa.getFeatures()
+            for feature in feats1:
+                provider.addFeatures([feature])
+                #outputLayer.updateExtents()
+                outputLayer.updateFields()
+            self.usunWarstwe(warstwa)
+        QgsMapLayerRegistry.instance().addMapLayer(outputLayer)
         outputLayer.updateExtents()
 
-    def usunWarstwe(self, nazwaWarstwy):
-        warstwa = self.wyborWarstwy(nazwaWarstwy)
+    def usunWarstwe(self, warstwa):
+        #warstwa = self.wyborWarstwy(nazwaWarstwy)
         QgsMapLayerRegistry.instance().removeMapLayers([warstwa.id()])
 
 class BUBD_A:
@@ -158,7 +174,7 @@ class BUBD_A:
         #ids = [i.id() for i in obiekty]
         #warstwa.setSelectedFeatures( ids )
         QgsMessageLog.logMessage(str(len(obiekty)))
-        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa.name, "Polygon",obiekty, "budynekUzytecznosciPublicznejSymbol")
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa.name(), "Polygon",obiekty, "budynekUzytecznosciPublicznejSymbol")
 
     def budynekPrzemyslowySymbol(self):
         QgsMessageLog.logMessage(str(self.warstwa.name()))

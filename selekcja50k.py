@@ -297,6 +297,155 @@ class PTZB_A:
         #warstwa.setSelectedFeatures( ids )
         QgsMessageLog.logMessage(str(len(obiekty)))
         return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Polygon",obiekty, "zabudowaJednorodzinna")
+
+
+class SKDR_L:
+
+    nowaWarstwa = Warstwa()
+    warstwa = nowaWarstwa.wyborWarstwy('OT_SKDR_L')
+
+    def autostrada(self):
+        expr = QgsExpression("klasaDrogi = 'A' AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "autostrada")
+
+    def autostradawBudowie(self):
+        expr = QgsExpression("klasaDrogi = 'A' AND x_katIstni = 'Bud' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "autostradawBudowie")
+
+    def drogaEkspresowaDwujezdniowa(self):
+        expr = QgsExpression("klasaDrogi IN ('S', 'GP') AND liczbaJez >=2 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaEkspresowaDwujezdniowa")
+
+    def drogaEkspresowaJednojezdniowa(self):
+        expr = QgsExpression("klasaDrogi IN ('S', 'GP') AND liczbaJez =1 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaEkspresowaJednojezdniowa")
+
+    def drogaEkspresowawBudowie(self):
+        expr = QgsExpression("klasaDrogi IN ('S', 'GP') AND x_katIstni = 'Bud' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaEkspresowawBudowie")
+
+    def drogaGlownaDwujezdniowa(self):
+        expr = QgsExpression("klasaDrogi = 'G' AND liczbaJez >=2 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaGlownaDwujezdniowa")
+
+    def drogaGlownaJednojezdniowa(self):
+        expr = QgsExpression("klasaDrogi = 'G' AND liczbaJez =1 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaGlownaJednojezdniowa")
+
+    def drogaZbiorczaDwujezdniowa(self):
+        expr = QgsExpression("klasaDrogi = 'Z' AND materialNa IN ('Bt', 'Br', 'Kl', 'Kk', 'Kp', 'Mb') AND liczbaJez =2 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaZbiorczaDwujezdniowa")
+
+    def drogaZbiorczaJednojezdniowa(self):
+        expr = QgsExpression("klasaDrogi = 'Z' AND materialNaw IN ('Bt', 'Br', 'Kl', 'Kk', 'Kp', 'Mb') AND liczbaJez =1 AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaZbiorczaJednojezdniowa")
+
+    def drogaLokalnaTwarda(self):
+        expr = QgsExpression("klasaDrogi IN ('L', 'D', 'I') AND materialNa IN ('Bt', 'Br', 'Kl', 'Kk', 'Kp', 'Mb') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaLokalnaTwarda")
+
+    def drogaLokalnaUtwardzona(self):
+        expr = QgsExpression("klasaDrogi IN ('L', 'D', 'I') AND materialNa IN ('Pb', 'Tl', 'Zw') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaLokalnaUtwardzona")
+
+    def drogaLokalnaGruntowa(self):
+        expr = QgsExpression("klasaDrogi = 'L' AND materialNa IN ('Gr', 'Gz') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaLokalnaGruntowa")
+
+    def drogaDojazdowa(self):
+        expr = QgsExpression("klasaDrogi IN ('D', 'I') AND materialNaw IN ('Gr', 'Gz') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG'  ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "drogaDojazdowa")
+
+class SKJZ_L:
+
+    nowaWarstwa = Warstwa()
+    warstwa = nowaWarstwa.wyborWarstwy('OT_SKJZ_L')
+
+    def jezdniaAutostrady(self):
+        expr = QgsExpression("klasaDrogi = 'A' AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "jezdniaAutostrady")
+
+    def jezdniadrogiEkspresowej(self):
+        expr = QgsExpression("klasaDrogi IN ('S', 'GP') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "jezdniadrogiEkspresowej")
+
+    def jezdniaDrogiGlownejSymbol(self):
+        expr = QgsExpression("klasaDrogi = 'G' AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "jezdniaDrogiGlownejSymbol")
+
+    def jezdniaDrogiZbiorczejSymbol(self):
+        expr = QgsExpression("klasaDrogi = 'Z' AND materialNa IN ('Bt', 'Br', 'Kl', 'Kk', 'Kp', 'Mb') AND x_katIstni = 'Eks' AND x_rodzajRe = 'OG' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "jezdniaDrogiZbiorczej")
+
+class SKRP_L:
+
+    nowaWarstwa = Warstwa()
+    warstwa = nowaWarstwa.wyborWarstwy('OT_SKRP_L')
+
+    def alejkaPasazSymbol(self):
+        expr = QgsExpression("(klasaCiagu = 'Ap' AND szerokosc >= 5) OR klasaCiagu = 'Pm' ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "alejkaPasazSymbol")
+
+    def sciezka(self):
+        expr = QgsExpression("klasaCiagu= 'Sc' OR (klasaCiagu = 'Ap' AND szerokosc < 5) ")
+        expr.prepare(self.warstwa.pendingFields())
+        obiekty = filter(expr.evaluate, self.warstwa.getFeatures())
+        QgsMessageLog.logMessage(str(len(obiekty)))
+        return self.nowaWarstwa.utworzNowaWartswe(self.warstwa, "Line",obiekty, "sciezka")
         
 """build =BUBD_A()
 build.budynekMieszkalnySkala()
