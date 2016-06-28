@@ -25,7 +25,7 @@ import os
 from PyQt4.QtGui import QFileDialog, QMessageBox
 
 from PyQt4 import QtGui, uic
-
+from building_generalization import *
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'building_generalization_dialog_base.ui'))
 
@@ -42,9 +42,9 @@ class GeneralizationDialog(QtGui.QDialog, FORM_CLASS):
 
         self.setupUi(self)
 
-        self.DP.clicked.connect(self.showBrowserDialog)
-
     def showBrowserDialog(self):
         """Shows a file browser dialog to enter the output path."""
         fileName = QFileDialog.getSaveFileName(None, 'Save output shapefile','','Shapefiles (*.shp *.SHP)')
         self.outputPath.setText(fileName)
+
+

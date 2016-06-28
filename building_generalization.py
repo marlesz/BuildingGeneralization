@@ -20,28 +20,29 @@
  *                                                                         *
  ***************************************************************************/
 """
-from PyQt4.QtCore import QSettings, QTranslator, qVersion, QCoreApplication
-from PyQt4.QtGui import QAction, QIcon, QMessageBox
-import sys
-from PyQt4 import QtCore, QtGui
 import os.path
-import glob
-from qgis.core import *
-from qgis.gui import *
 from qgis.utils import *
+from PyQt4.QtCore import QVariant
+
+from PyQt4.QtCore import QSettings, QTranslator, qVersion
+from PyQt4.QtGui import QAction, QIcon
+
 # Initialize Qt resources from file resources.py
-import resources
 # Import the code for the dialog
-from building_generalization_dialog import GeneralizationDialog
+#from building_generalization_dialog import GeneralizationDialog
 import os.path
 from selekcja50k import *
 from WarstwaOperacje import *
 from morfologia import *
-from DouglasPeucker import *
+from RDP import *
 #from piedziesiat import *
-
-
-
+import processing
+from simplification import *
+from Morphology import *
+from roadsSimplification import *
+from buildingSimplification import *
+from buildingsAreaSimplification import *
+from dissolveWiithFields import *
 class Generalization:
     """QGIS Plugin Implementation."""
 
@@ -142,6 +143,10 @@ class Generalization:
             callback=self.run,
             parent=self.iface.mainWindow())
 
+        self.dlg.BuildingsAreaButton.clicked.connect(self.buildingsAreaClicked)
+        self.dlg.RoadsButton.clicked.connect(self.roadsClicked)
+        self.dlg.BuildingButton.clicked.connect(self.buildingClicked)
+
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -163,54 +168,31 @@ class Generalization:
 
         # See if OK was pressed
         if result:
-            QgsMessageLog.logMessage("aaaaewwwwdwed")
             #Do something useful here - delete the line containing pass and
             # substitute with your code.
 
-            """build =BUBD_A()
-            build.budynekMieszkalnySkala()
-            build.budynekUzytecznosciPublicznejSkala()
-            build.budynekPrzemyslowySkala()
-            build.budynekGospodarczySkala()
-            build.szklarniaSkala()
-            build.budynekMieszkalnySymbol()
-            build.budynekUzytecznosciPublicznejSymbol()
-            build.budynekPrzemyslowySymbol()
-            build.budynekGospodarczySymbol()
-            build.ruinaSymbol()
-            build.swiatyniaChrzescijanskaSymbol()
-            build.swiatyniaNiechrzescijanskaSymbol()
-            build.kaplicaSymbol()
-            oior = OIOR_A()
-            oior.ruinaSymbol()
-            oior.szklarniaSkala()
-            buwt = BUWT_A()
-            buwt.budynekPrzemyslowySkala()
-            buwt.budynekPrzemyslowySymbol()
-            ptzb = PTZB_A()
-            ptzb.zabudowaJednorodzinna()
-            ptzb.zabudowaWielorodzinnaGesta()
-            ptzb.zabudowaWielorodzinnaZwarta()
-            warstwa = Warstwa()
-            warstwa.polaczWarstwy("Polygon", "szklarniaSkala2",build.szklarniaSkala(), oior.szklarniaSkala())
-            warstwa.polaczWarstwy("Polygon", "ruinaSymbol2",build.ruinaSymbol(), oior.ruinaSymbol())
-            warstwa.polaczWarstwy("Polygon", "budynekPrzemyslowySkala2", build.budynekPrzemyslowySkala(), buwt.budynekPrzemyslowySkala() )
-            warstwa.polaczWarstwy("Polygon", "budynekPrzemyslowySymbol2", build.budynekPrzemyslowySymbol(), buwt.budynekPrzemyslowySymbol() )
+            pass
 
-            #centroid = CentroidPoligonu()
-            #centroid.centroidPoligonu("BudynkiSymbol")
-            #centroid.centroidPoligonu("budynekMieszkalnySymbol")
-            #zab = PTZB_A()
-            #zab.zabudowaJednorodzinna()
-            #punkt = CentroidPoligonu()
-            #punkt.centroidPoligonu('OT_BUBD_A')
-            #warstwa = Warstwa()
-            #warstwa.polaczWarstwy("Polygon", "Budynki", "budynekMieszkalnySkala", "budynekPrzemyslowySkala" )"""
-            warstwa = Warstwa()
-            morf = Morfologia()
-            morf.dylacja(warstwa.wyborWarstwy("OT_OIOR_A"), "/home/ml/Documents/Praca magisterska/proby/bufordyl.shp", 10, False, True)
-            morf.erozja(warstwa.wyborWarstwy("buforDylacja"), "/home/ml/Documents/Praca magisterska/proby/buforer.shp", -10, False, False)
-            warstwa.wyborWarstwy("OT_BUWT_A")
-            dp = RamerDouglasPeucker(1)
 
-            dp.runsimplify(warstwa.wyborWarstwy("OT_OIOR_A"))
+    def buildingsAreaClicked (self):
+        buildArea = BuildingsAreaSimplification()
+        buildArea.simplify()
+
+
+
+
+    def roadsClicked(self):
+        roads  = RoadSimplification()
+        roads.simplify()
+
+    def buildingClicked(self):
+        build = BuildingSimplification()
+        build.simplify()
+
+
+
+
+
+
+
+
